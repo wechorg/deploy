@@ -9,8 +9,12 @@ on: deployment
 jobs:
   # This workflow contains a single job called "build"
   development:
+    if: github.event.deployment.environment == 'development'
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    environment: 
+      name: development
+      url: https://mysite.dev
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -20,5 +24,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: Check the deployment environment
         run: echo ${{ github.event.deployment.environment }}
+      
+      - name: Log Environment secrets
+        run: echo ${{secrets.PASSWORD}} | rev
 
 
